@@ -3,14 +3,12 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Compiling .cpp file'
-                sh 'g++ -o PES2UG23CS827-1 src/hello.cpp'  // Adjust the path if necessary
+               sh 'g++ hello.cpp -o hello_exec' 
             }
         }
         stage('Test') {
             steps {
-                echo 'Running .cpp file'
-                sh './PES2UG23CS827-1'  // Ensure it's executable or you may need `chmod +x PES2UG23CS827-1`
+                sh './hello_exec'  // Ensure it's executable or you may need `chmod +x PES2UG23CS827-1`
             }
         }
         stage('Deploy') {
