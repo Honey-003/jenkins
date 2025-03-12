@@ -1,42 +1,32 @@
 pipeline {
-agent {
-docker {
-image 'node:14'
-}
-}
-stages {
-stage('Clone repository') {
-steps {
-git branch: 'main',
-url: 'https://github.com/Honey-003/jenkins.git'
-}
-}
+    agent any  // Replace 'docker' with 'any'
 
-stage('Install dependencies') {
-steps {
-sh 'npm install'
-}
-}
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Compiling .cpp file'
+                sh 'g++ -o PES2UG23CS827-1 hello.cpp'
+            }
+        }
 
-stage('Build application') {
-steps {
-sh 'npm run build'
-}
-}
+        stage('Test') {
+            steps {
+                echo 'Testing .cpp file'
+                sh './PES2UG23CS827-1'
+            }
+        }
 
-stage('Test application') {
-steps {
-sh 'npm test'
-}
-}
+        stage('Deploy') {
+            steps {
+                echo 'Deploying application'
+                // Add deployment steps if applicable
+            }
+        }
+    }
 
-
-stage('Push Docker image') {
-steps {
-sh 'docker build -t <user>/<image>:$BUILD_NUMBER .'
-sh 'docker push <user>/<image>:$BUILD_NUMBER'
-
-}
-}
-}
+    post {
+        failure {
+            echo 'Pipeline failed'
+        }
+    }
 }
